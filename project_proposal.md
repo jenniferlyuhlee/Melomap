@@ -15,7 +15,7 @@
 
 | Task Name                   | Description                                                                                                   | Labels                                                          |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-|Identify functionality, features and components|Determine what will be necessary in the app to fulfill project objectives <br>- User authentication (login/signup) form <br>-User profile (basic information) <br>- Upload image form <br>- Display of song results where user can play song snippet <br>- A ‘listen later’ and favorites list where songs can be added(?)| Must have, Easy
+|Identify functionality, features and components|Determine what will be necessary in the app to fulfill project objectives <br>- User authentication (login/signup) form <br>- User profile (basic information) <br>- Upload image form <br>- Display of song results where user can play song snippet <br>- A ‘listen later’ and favorites list where songs can be added(?)| Must have, Easy
 | Design Database schema      | Determine the models and database schema required for your project.                                           | Must have, Hard |
 | Source Your Data            | Determine where your data will come from. You may choose to use an existing API or create your own.           | Must have, Medium|
 | User Flows                  | Determine user flow(s) - think about what you want a user’s experience to be like as they navigate your site. | Must have, Medium, Front-end |
