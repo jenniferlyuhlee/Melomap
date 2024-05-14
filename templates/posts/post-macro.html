@@ -1,0 +1,112 @@
+<!-- Macro template for displaying posts -->
+{% macro display_post(post) %}
+
+<!-- <div id = "{{ post.id }}"class="bg-light p-4 rounded m-3">
+    <div class="row">
+        <div class="col-5">
+            <img class="post-img" src="/static/post-images/{{ post.image }}">
+        </div>
+        <div class="col-7">
+            {% for song in post.songs %}
+                {{ display_song(song)}}
+            {% endfor %}
+        </div>
+    </div>
+    <hr class="text-dark my-4">
+    <img id="nav-img" src="/static/profile-images/{{ g.user.profile_image }}" alt="{{ g.user.username }}">
+    {% if post.user.name %}
+        <p class="text-dark">{{ post.user.name }}</p>
+    {% endif %}
+    <a href="{{ url_for('user_profile', user_id=post.user_id) }}">@{{post.user.username}}</a>
+    <br>
+    <p class="text-dark m-0">{{ post.description }}</p>
+    <small class="text-dark">{{ post.timestamp.strftime('%I:%M %p - %b %d, %Y ') }}</small>
+    <div class="container-fluid text-right">
+        <i class="text-dark fa-solid fa-trash-can"></i>
+    </div>
+</div> -->
+<div class="col-lg-9 col-xl-8 col-xxl-7 my-2">
+<div id = "{{ post.id }}"class="bg-light p-4 rounded m-3">
+    <div class="d-flex align-items-center mb-2">
+        <img id="nav-img" class="me-2"
+        src="/static/profile-images/{{ g.user.profile_image }}" alt="{{ g.user.username }}">
+        {% if post.user.name %}
+            <span class="text-dark">{{ post.user.name }}</span>
+        {% endif %}
+        <a href="{{ url_for('user_profile', user_id=post.user_id) }}">@{{post.user.username}}</a>
+    </div>
+    <p class="text-dark my-0 mx-5 px-2">{{ post.description }}</p>
+    <img class="post-img mt-2" src="/static/post-images/{{ post.image }}">
+        {% for song in post.songs %}
+            {{ display_song(song)}}
+        {% endfor %}
+    <hr class="text-dark my-4">
+    
+    <div class="row">
+        <small class="col-6 text-dark">{{ post.timestamp.strftime('%I:%M %p - %b %d, %Y ') }}</small>
+        {% if g.user.id == post.user.id %}
+        <div class="col-6 text-end">
+            <i class="text-dark bi bi-trash-fill"></i>
+        </div>
+        {% endif%}
+    </div>
+</div>
+</div>
+
+{% endmacro %}
+
+
+<!-- Macro template for displaying songs -->
+{% macro display_song(song) %}
+
+<div id="{{ song.id }}" class="bg-light border p-2 m-0 row">
+    <div class="col-11 p-0">
+        <div class="d-inline-block">
+            <img class="song-img" src="{{ song.image_url }}">
+            {% if song.audio_url %}
+            <audio id="audio-{{ song.id }}" src="{{ song.audio_url }}"></audio>
+            <button class="play-pause">
+                <i class="bi play bi-play-fill"></i>
+            </button> 
+            {% endif %}
+        </div>
+        <div class="d-inline-block">
+            <a class="title text-dark m-0" href="{{ song.spotify_url }}">{{ song.title }}</a>
+            <small class="album d-block text-dark fst-italic">{{ song.album }} ({{ song.album_year }})</small>
+            <small class="artist d-block text-dark">{{ song.artists }}</small>
+        </div>
+    </div>
+    <div class="col-1">
+        {% if song in g.user.bookmarked_songs %}
+        <i class="text-dark bookmark bi bi-bookmark-fill"></i>
+        {% else %}
+        <i class="text-dark bookmark bi bi-bookmark"></i>
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+
+{% macro display_song2(song) %}
+
+<div id="{{ song.id }}" class="bg-light border p-2 m-0 row">
+    <div class="col-2 col-sm-1 p-0">
+        <img class="song-img" src="{{ song.image_url }}">
+        {% if song.audio_url %}
+        <audio src="{{ song.audio_url }}" controls></audio>
+        {% endif %}
+    </div>
+    <div class="col-9">
+        <a class="title text-dark m-0" href="{{ song.spotify_url }}">{{ song.title }}</a>
+        <small class="album d-block text-dark fst-italic">{{ song.album }} ({{ song.album_year }})</small>
+        <small class="artist d-block text-dark">{{ song.artists }}</small>
+    </div>
+    <div class="col-1">
+        {% if song in g.user.bookmarked_songs %}
+        <i class="bi bi-bookmark-fill"></i>
+        {% else %}
+        <i class="bi bi-bookmark"></i>
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}

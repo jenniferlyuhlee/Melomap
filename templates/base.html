@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Melomap</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">  
+  <script src="https://kit.fontawesome.com/6d2c09170e.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/static/app.css">
+
+  <!-- <link rel="stylesheet"
+        href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://unpkg.com/popper"></script>
+  <script src="https://unpkg.com/bootstrap"></script>
+ -->
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-sm">
+    <div class="container-fluid">
+      <div class="col-4 d-flex align-self-start">
+        {% if not g.user %}
+        {% else %}
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle p-0" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img id="nav-img" src="/static/profile-images/{{ g.user.profile_image }}" alt="{{ g.user.username }}">
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/users/{{ g.user.id }}"> My Profile</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('search_music') }}">New Upload</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ url_for('logout')}}">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+        {% endif %}
+      </div>
+      <div class="col-4 d-flex align-self-start justify-content-center">
+        <a id="home-link" class="navbar-brand m-0 text-light" 
+        href="{{ url_for('homepage')}}">melomap</a>
+      </div>
+      <div class="col-4 d-flex justify-content-end">
+          <ul class="navbar-nav align-items-center">
+            {% if not g.user %}
+            <li class="nav-item">
+              <a class="nav-link link-light" href="{{ url_for('signup') }}">Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-light" href="{{ url_for('login') }}">Login</a>
+            </li>
+            
+            {% else %}
+            <!-- <li class="nav-item">
+              <div id ="icon-container">
+                <a href="{{ url_for('search_music') }}">
+                  <i id="headphone" class="fa-solid fa-headphones"></i>
+                  <i id = "arrow" class="fa-solid fa-circle-arrow-up"></i>
+                </a>
+              </div>
+            </li> -->
+            <li id="nav-search" class="nav-item mt-2 mt-sm-0">
+              <form action="{{ url_for('search') }}" id="search-form" class="d-flex">
+                <input name="q" id="search-posts" 
+                class="form-control me-2" 
+                placeholder= " &#xF002; Search" style="font-family:Arial, FontAwesome; font-size:14px">
+              </form>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div id = "flash" class="text-center alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+  
+
+  {% block content %}
+  {% endblock %}
+
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"
+    integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>

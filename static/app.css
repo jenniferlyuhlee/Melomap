@@ -1,0 +1,194 @@
+/* Global Styling */
+*{
+    box-sizing: border-box;
+    color: white;
+}
+
+body{
+    height: 120vh;
+    background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+    linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+    linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+    background-attachment: fixed;
+}
+
+h2{
+    margin: 0px;
+    padding: 10px;
+}
+
+a{
+    text-decoration: none;
+}
+
+/* Global Font & Icons Styling */
+hr{
+    border-width: 2px;
+}
+
+.bi-pencil-square{
+    font-size: 30px;
+}
+
+
+/* Navbar Styling*/
+#home-link{
+    font-size: 30px;
+}
+
+.navbar-toggler{
+    opacity: 1;
+}
+
+#nav-img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+/* .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+.dropdown>.dropdown-toggle:active {
+      pointer-events: none;
+  } */
+
+/* Search Form Styling 
+Copied from Warbler App
+*/
+#nav-search{
+    width: 150px;
+}
+
+#search-posts.form-control {
+    border-radius: 20px;
+  }
+  
+#search-btn{
+    position: absolute;
+    right: 95px;
+    top: 5px;
+    bottom: 4px;
+    z-index: 1;
+    padding: 0;
+}
+#search-icon{
+    color: #888888
+  }
+  
+  #search-btn:active,
+  #search-btn:focus {
+    box-shadow: none;
+  }
+  
+  #search-posts:active,
+  #search-posts:focus {
+    box-shadow: none;
+    border: 2px solid lightblue
+  }
+
+/* Profile Page Styling */
+#profile-img{
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.profile-container{
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.active-tab{
+    border: 2px solid white;
+    border-radius: 5px;
+    /* background: rgba(255, 255, 255, 0.4);
+    text-decoration: underline; */
+}
+
+/* Edit Profile Page Styling */
+#headphone{
+    position: absolute;
+}
+
+#headphone{
+    font-size: 50px;
+}
+
+.arrow-icon{
+    position: relative;
+    top: -5px;
+    right: 45px;
+}
+
+.bi-arrow-left-square{
+    position: absolute;
+    font-size: 30px;
+}
+
+#edit-pw-pencil{
+    position:relative;
+    bottom: 140px;
+    left: 35px; 
+}
+
+/* Posts Styling */
+img.post-img{
+    width: 100%;
+}
+
+.bi-trash-fill, .bookmark{
+    font-size: 20px;
+}
+
+/* Song Styling */
+img.song-img{
+    width: 60px;
+}
+
+a.title{
+    font-weight: bold;
+    font-size: 14px;
+}
+.album, .artist{
+    font-size: 12px;
+}
+
+.bookmark:hover{
+    cursor: pointer;
+}
+
+/* Audio Controls Styling */
+
+.play-pause{
+    position:relative;
+    left: -49px;
+    top: 8px;
+    height: 30px;
+    width: 30px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+i.play{
+    position: relative;
+    font-size: 25px;
+}
+i.bi-play-fill{
+    left: -2px;
+    top: -4px;
+}
+
+i.bi-pause-fill{
+    left: -4px;
+    top: -4px;
+}
+
+
+/* Search Page styling */
+#users-results{
+    display: none;
+}
+

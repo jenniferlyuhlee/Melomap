@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center py-3 px-5">
+    <div class="col-md-9 col-lg-7 col-xl-6 col-xxl-5">
+
+      {% block before_form_details %}
+      {% endblock %}
+      
+      <h3>{{title}}</h3>
+      <form method="POST" id="user_form" enctype="multipart/form-data">
+          {{ form.hidden_tag() }}
+          {% for field in form if field.widget.input_type != 'hidden' %}  
+            {% for error in field.errors %}
+              <span class="text-danger">*{{ error }}</span>
+            {% endfor %}
+            <div class="form-floating my-2">
+              {% if field.type=='TextAreaField' %}
+                {{ field(class="form-control", style="height:100px") }}
+              {% else %}
+                {{ field(class="form-control") }}
+              {% endif %}
+
+              {{ field.label }}
+            </div>
+          {% endfor %}
+          <button class="btn btn-primary float-end">{{button}}</button>
+      </form>
+
+      {% block after_form_details %}
+      {% endblock %}
+
+    </div>
+  </div>
+</div>
+{% endblock %}

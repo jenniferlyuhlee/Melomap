@@ -1,0 +1,23 @@
+{% extends 'form.html' %}
+
+{% block before_form_details %}
+<div class = "arrow-icon">
+    <a href="{{ url_for('user_profile', user_id=user.id) }}">
+        <i class="bi bi-arrow-left-square"></i>
+    </a>
+</div>
+{% endblock %} 
+
+
+{% block after_form_details %}
+<h3 class="mt-5">Other Settings</h3>
+    <a id ="edit-pw-pencil" class='float-end'
+    href="{{ url_for('edit_password') }}">
+        <i class="bi bi-pencil-square"></i>
+    </a>    
+
+
+<a class='btn border-2 btn-outline-light text-danger'
+href="{{ url_for('delete_user') }}">Delete Account</a>
+{% endblock %}
+

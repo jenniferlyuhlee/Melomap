@@ -1,0 +1,13 @@
+{% if user.posts %}
+    {% for post in (user.posts | sort(attribute='timestamp', reverse=True)) %}
+        {% import 'posts/post-macro.html' as macros %}
+        {{ macros.display_post(post)}}
+    {% endfor %}
+{% else %}
+    {% if g.user.id == user.id %}
+    <p>Upload a photo to get started!</p>
+    <a class='btn btn-success' href="{{ url_for('search_music') }}">Go!</a>
+    {% else %}
+    <p>{{ user.username }} has no posts.</p>
+    {% endif %}
+{% endif %}

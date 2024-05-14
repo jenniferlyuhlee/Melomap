@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="profile-container rounded mx-3 mb-4 d-flex flex-column align-items-center">
+        <img id="profile-img" class="mt-4 mb-3"
+        src="/static/profile-images/{{ user.profile_image }}" alt="{{ g.user.username }}">
+        <div class="text-dark text-center container-fluid ">
+            <h1>@{{ user.username }}</h1>
+        
+            {% if user.name %}
+            <h3 class="mb-3">{{ user.name }}</h3>
+            {% endif %}
+        
+            {% if user.location %}
+            <h6>
+                <i class="text-dark bi bi-geo-alt-fill"></i>
+                {{ user.location }}
+            </h6>
+            {% endif %}
+        
+            <hr>
+            {% if user.bio %}
+            <p class="text-dark mb-2">{{ user.bio }}</p>
+            {% endif %}
+        
+            {% if g.user.id == user.id %}
+            <div class="mb-3">
+                <a href="{{ url_for('edit_user') }}">
+                    <i class="text-dark bi bi-pencil-square"></i>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="text-center row mx-3">
+        <div class="col-6 tab active-tab">
+            <h2 id="my-posts-tab" data-userid = "{{ user.id }}">Posts</h2>
+        </div>
+        <div class="col-6 tab">
+            <h2 id="my-songs-tab" data-userid = "{{ user.id }}">Bookmarked Songs</h2>
+        </div>
+    </div>
+
+    <div class="container-md">
+        <div id ="user-content" class="row justify-content-center">
+            {% include 'user/posts.html' %}
+        </div>
+    </div>
+
+{% endblock %}
+

@@ -1,0 +1,12 @@
+{% if user.bookmarked_songs %}
+    {% for saved in user.bookmarked_songs %}
+        {% import 'posts/post-macro.html' as macros%}
+        {{macros.display_song(saved)}}
+    {% endfor %}
+{% else %}
+    {% if g.user.id == user.id %}
+    <p>Start bookmarking songs!</p>
+    {% else %}
+    <p>{{ user.username }} has nothing bookmarked yet.</p>
+    {% endif %}
+{% endif %}

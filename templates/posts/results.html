@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div>
+    {% if g.user.id == post.user.id %}
+    <h1>Here are your results:</h1>
+    {% else %}
+    <h1>Here are @{{ post.user.username }}'s results:</h1>
+    {% endif %}
+
+    {% import 'posts/post-macro.html' as macros%}
+    {{ macros.display_post(post)}}
+
+</div>
+{% endblock %}
