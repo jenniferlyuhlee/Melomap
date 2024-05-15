@@ -1,12 +1,17 @@
-{% if user.bookmarked_songs %}
-    {% for saved in user.bookmarked_songs %}
-        {% import 'posts/post-macro.html' as macros%}
-        {{macros.display_song(saved)}}
-    {% endfor %}
-{% else %}
-    {% if g.user.id == user.id %}
-    <p>Start bookmarking songs!</p>
+{% import 'posts/post-macro.html' as macros%}
+
+<div class="col-lg-9 col-xl-8 col-xxl-7 m-4">
+    {% if user.bookmarked_songs %}
+        {% for saved_song in user.bookmarked_songs | sort(attribute='artists') %}
+        <div class="mb-1">    
+            {{ macros.display_song(saved_song, 'border rounded') }}
+        </div>
+        {% endfor %}
     {% else %}
-    <p>{{ user.username }} has nothing bookmarked yet.</p>
+        {% if g.user.id == user.id %}
+        <p>Start bookmarking songs!</p>
+        {% else %}
+        <p>{{ user.username }} has nothing bookmarked yet.</p>
+        {% endif %}
     {% endif %}
-{% endif %}
+</div>

@@ -36,6 +36,7 @@ $('#my-posts-tab').on('click', displayPosts)
 // axios request to bookmark/unbookmark songs
 async function toggleBookmark(evt){
     let $target = $(evt.target)
+    console.log($target)
     const songId = $target.parent().parent().attr('id')
     const resp = await axios.post(`${BASE_URL}bookmark/${songId}`)
     if (resp){
@@ -56,8 +57,9 @@ $('.bookmark').on('click', toggleBookmark)
 async function deletePost(evt){
     let $target = $(evt.target)
     const postId = $target.parent().parent().attr('id')
+    // send request
     const resp = await axios.delete(`${BASE_URL}posts/${postId}/delete`)
-
+    // if request went through display success message, else error message
     if (resp.data.message === "Deleted"){
         let $postEl = $target.closest(`#${postId}`)
         $postEl.remove()
@@ -70,9 +72,9 @@ async function deletePost(evt){
 $('.fa-trash-can').on('click', deletePost)
 
 
-// Handle radio form for search filtering
+// Change display on search filter select dropdown
 function filter_results(){
-    const val = $('input[name="filter"]:checked').val();
+    const val = $('#filter-music').val();
     if (val === 'users'){
         $('#music-results').hide()
         $('#users-results').show()
@@ -82,15 +84,17 @@ function filter_results(){
         $('#users-results').hide()
     }
 }
-$('.filter').change(filter_results)
+$('#filter-music').change(filter_results)
 
 
 // Click event to play/pause track audio snippet
 $('.play-pause').on('click', playPause)
 function playPause(evt){
     let $iconBtn = $(evt.target)
+    // Grab audioId to select correct audio player object
     let audioId = $iconBtn.parent().prev().attr('id')
     let $audio = $(`#${audioId}`).get(0)
+    // Change button icon displays and play/pause audio
     if ($iconBtn.hasClass('bi-play-fill')){
         $iconBtn.removeClass('bi-play-fill')
         $iconBtn.addClass('bi-pause-fill')

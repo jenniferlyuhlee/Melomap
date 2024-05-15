@@ -1,6 +1,7 @@
 /* Global Styling */
 *{
     box-sizing: border-box;
+    /* color: #222222; */
     color: white;
 }
 
@@ -19,6 +20,10 @@ h2{
 
 a{
     text-decoration: none;
+}
+
+.profile-img{
+    border-radius: 50%;
 }
 
 /* Global Font & Icons Styling */
@@ -43,7 +48,6 @@ hr{
 #nav-img{
     width: 50px;
     height: 50px;
-    border-radius: 50%;
 }
 
 /* .dropdown:hover .dropdown-menu {
@@ -88,24 +92,6 @@ Copied from Warbler App
     border: 2px solid lightblue
   }
 
-/* Profile Page Styling */
-#profile-img{
-    object-fit: cover;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-}
-
-.profile-container{
-    background: rgba(255, 255, 255, 0.4);
-}
-
-.active-tab{
-    border: 2px solid white;
-    border-radius: 5px;
-    /* background: rgba(255, 255, 255, 0.4);
-    text-decoration: underline; */
-}
 
 /* Edit Profile Page Styling */
 #headphone{
@@ -159,12 +145,38 @@ a.title{
     cursor: pointer;
 }
 
-/* Audio Controls Styling */
 
+/* Profile Page Styling */
+#profile-img{
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+}
+
+.profile-container{
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.active-tab{
+    border: 2px solid white;
+    border-radius: 5px;
+    /* background: rgba(255, 255, 255, 0.4);
+    text-decoration: underline; */
+}
+
+.tab:hover{
+    cursor: pointer;
+}
+
+/* Audio Controls Styling */
+/* https://stackoverflow.com/questions/13810085/html5-audio-display-only-play-pause-and-mute-buttons */
+.audio-player{
+    position: absolute;
+}
 .play-pause{
-    position:relative;
-    left: -49px;
-    top: 8px;
+    position: absolute;
+    left: 15px;
+    top: -15px;
     height: 30px;
     width: 30px;
     border: none;
@@ -173,22 +185,26 @@ a.title{
 }
 
 i.play{
-    position: relative;
-    font-size: 25px;
+    position: absolute;
+    font-size: 24px;
+    top: -3px;
 }
 i.bi-play-fill{
-    left: -2px;
-    top: -4px;
+    left: 4px;
 }
 
 i.bi-pause-fill{
-    left: -4px;
-    top: -4px;
+    left: 3px;
 }
 
 
 /* Search Page styling */
 #users-results{
     display: none;
+}
+
+#card-img{
+    width: 150px;
+    height: 150px;
 }
 

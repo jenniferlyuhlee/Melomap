@@ -19,7 +19,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-sm">
+  <nav class="navbar navbar-expand">
     <div class="container-fluid">
       <div class="col-4 d-flex align-self-start">
         {% if not g.user %}
@@ -27,7 +27,8 @@
         <ul class="navbar-nav align-items-center">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle p-0" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img id="nav-img" src="/static/profile-images/{{ g.user.profile_image }}" alt="{{ g.user.username }}">
+              <img id="nav-img" class="profile-img" 
+              src="/static/profile-images/{{ g.user.profile_image }}" alt="{{ g.user.username }}">
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="/users/{{ g.user.id }}"> My Profile</a></li>
@@ -79,13 +80,10 @@
   {% for category, message in get_flashed_messages(with_categories=True) %}
   <div id = "flash" class="text-center alert alert-{{ category }}">{{ message }}</div>
   {% endfor %}
-  
 
   {% block content %}
   {% endblock %}
 
-
-  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"
     integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous"></script>
     <script

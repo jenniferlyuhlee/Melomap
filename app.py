@@ -345,9 +345,10 @@ def search():
             (func.lower(User.name).like(f"%{search}%"))
             ).all()
 
-    return render_template ('posts/search.html', 
+    return render_template ('search.html', 
                             songs=songs,
-                            users=users)
+                            users=users,
+                            search=search)
 
 
 @app.route('/posts/upload', methods=['GET', 'POST'])

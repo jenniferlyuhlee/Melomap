@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="profile-container rounded mx-3 mb-4 d-flex flex-column align-items-center">
-        <img id="profile-img" class="mt-4 mb-3"
+        <img id="profile-img" class="profile-img mt-4 mb-3"
         src="/static/profile-images/{{ user.profile_image }}" alt="{{ g.user.username }}">
         <div class="text-dark text-center container-fluid ">
             <h1>@{{ user.username }}</h1>
@@ -18,8 +18,8 @@
             </h6>
             {% endif %}
         
-            <hr>
             {% if user.bio %}
+            <hr>
             <p class="text-dark mb-2">{{ user.bio }}</p>
             {% endif %}
         

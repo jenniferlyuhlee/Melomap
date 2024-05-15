@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-md ">
+  <div class="d-flex justify-content-center">
+    <p class="me-2">Filter by:</p>
+    <div>
+      <select id="filter-music" class="form-select form-select-sm">
+        <option selected value="music">Music</option>
+        <option value="users">Users</option>
+      </select>
+    </div>
+  </div>
+  <div class="text-center">
+    <p><i>Showing searches for "<b>{{ search }}</b>"</i></p>
+  </div>
+
+  {% import 'posts/post-macro.html' as macros%}
+  <div id ="music-results" class="mb-3 row justify-content-center">
+      {% for song in songs %}
+        <div class="mb-1 col-lg-9 col-xl-8 col-xxl-7">
+        {{ macros.display_song(song, 'border rounded') }}
+        </div>
+    {% endfor %}
+  </div>
+  
+  <div id = "users-results" class="mb-3">
+    <div class="row">
+      {% for user in users %}
+        <div class="d-flex align-items-stretch col-sm-6 col-lg-4 col-xl-3">
+          <div class="flex-fill card m-1">
+            <div class="card-body d-flex flex-column align-items-center">
+              <a href="{{ url_for('user_profile', user_id=user.id) }}">
+                <img class="profile-img" id = "card-img" src="/static/profile-images/{{ user.profile_image }}" alt="{{ user.username }}">
+              </a>
+              <h5 class="card-title mt-2">@{{ user.username }}</h5>
+              {% if user.name %}
+              <h6 class="card-subtitle mb-2 text-body-secondary">{{ user.name }}</h6>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+  </div>
+
+</div>
+
+{% endblock %}
