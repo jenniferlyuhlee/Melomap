@@ -8,7 +8,11 @@ Potential Features:
 - Users can add songs results directly to their spotify playlists
 
 APIs:
-- AI image keyword generator (grab search terms)
+- AI image keyword generator (grab search terms), potential one's I found:
+	- https://labs.everypixel.com/keywording?ref=apilist.fun
+   	- https://www.phototag.ai/api
+	- https://imagga.com/solutions/auto-tagging
+
 - Spotify API (search tracks, add to playlist)
 
 ### Idea 2A: Share Travel Itineraries App
