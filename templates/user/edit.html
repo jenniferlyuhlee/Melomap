@@ -10,14 +10,22 @@
 
 
 {% block after_form_details %}
-<h3 class="mt-5">Other Settings</h3>
+<h3 class="text-white mt-5">Other Settings</h3>
     <a id ="edit-pw-pencil" class='float-end'
     href="{{ url_for('edit_password') }}">
-        <i class="bi bi-pencil-square"></i>
+        <i class="text-white bi bi-pencil-square"></i>
     </a>    
 
 
-<a class='btn border-2 btn-outline-light text-danger'
-href="{{ url_for('delete_user') }}">Delete Account</a>
-{% endblock %}
-
+{% import 'msg-macro.html' as macros%}
+<!--Account deletion modal -->
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target=".staticBackdrop">
+    Delete Account
+</button>
+{{ macros.modal('staticBackdrop', 
+                'staticModalLabel',
+                'Are you sure you want to delete your account?',
+                'delete-account',
+                url_for('delete_user')) 
+}}
+{% endblock %} 

@@ -1,0 +1,6 @@
+__pycache__/
+venv/
+secret.py
+.DS_Store
+.vscode/
+static/.DS_Store

@@ -32,8 +32,6 @@ IMAGE_FOLDER = 'static/post-images'
 app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
 
 connect_db(app)
-# db.drop_all()
-db.create_all()
 
 ###############################################################
 # User auth decoraters/functions
@@ -96,7 +94,7 @@ def signup():
             db.session.rollback()
             form.username.errors.append('Username taken.')
             return render_template ('form.html', form=form,
-                                    title='Join Melomap.',
+                                    title='Join melomap.',
                                     button='Sign up')
         
         # Login user to session and redirect to home page
@@ -108,7 +106,7 @@ def signup():
     else:
         return render_template('form.html',
                                form=form, 
-                               title='Join Melomap.',
+                               title='Join melomap.',
                                button='Sign up')
     
 
@@ -128,8 +126,7 @@ def login():
             flash(f"Hello {user.username}!", "success")
             return redirect(url_for('homepage'))
 
-        # If authentication fails flash message
-        flash("Invalid credentials.", 'danger')
+        form.username.errors.append('Invalid credentials.')
     
     # Show login form if not validating
     return render_template('form.html', 
@@ -139,6 +136,7 @@ def login():
 
 
 @app.route('/logout')
+@check_g_user
 def logout():
     """Handles logging out user"""
 
@@ -156,15 +154,15 @@ def logout():
 def homepage():
     """Shows homepage:
     - anon users: signup page
-    - logged in: 50 most recent posts
+    - logged in: 30 most recent posts
     """
 
     if g.user:
-        posts = Post.query.order_by(Post.timestamp.desc()).limit(50).all()
-        return render_template('home.html', posts=posts)
+        posts = Post.query.order_by(Post.timestamp.desc()).limit(30).all()
+        return render_template('homepages/home.html', posts=posts)
 
     else:
-        return render_template('home-anon.html')
+        return render_template('homepages/home-anon.html')
 
 
 ###############################################################
@@ -231,12 +229,11 @@ def edit_user():
                 g.user.name = form.name.data
                 g.user.location = form.location.data
                 g.user.bio = form.bio.data
-                g.user.spotify_account_id = form.spotify_account_id.data
                 g.user.email = form.email.data
                 g.user.username = form.username.data
                 
                 # If filefield filled, handles saving filename to db
-                if (request.files['profile_image']): 
+                if ('profile_image' in request.files and request.files['profile_image']): 
                     # Grab file and filename
                     img_file = request.files['profile_image']
                     img_filename = secure_filename(img_file.filename)
@@ -304,7 +301,7 @@ def edit_password():
                            button = 'Save')
 
 
-@app.route('/user/delete', methods=["POST"])
+@app.route('/user/delete', methods=['GET'])
 @check_g_user
 def delete_user():
     """Delete user"""
@@ -372,6 +369,7 @@ def search_music():
 
         # send photo to AI-image API to get keywords
         keywords = get_keywords(f'static/post-images/{img_name}')
+        
         # send keywords to Spotify API to get song data as a list
         song_data_list = get_list_of_tracks(keywords)
 
@@ -425,3 +423,12 @@ def delete_post(post_id):
         except:
             db.session.rollback()
             return jsonify(message="Failed")
+
+
+###############################################################
+# 404 Page
+        
+@app.errorhandler(404)
+@check_g_user
+def page_not_found(err):
+    return render_template('404.html'), 404

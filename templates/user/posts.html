@@ -5,12 +5,13 @@
         {{ macros.display_post(post)}}
     {% endfor %}
 {% else %}
-    {% if g.user.id == user.id %}
-    <div class="container">
-        <h3 class="mt-4">Upload a photo to get started!</h3>
+    <div class="container text-center">
+        <h3 class="mt-4 text-white">
+        {% if g.user.id == user.id %}
+        Upload a photo to get started!</h3>
         <a class='btn btn-success' href="{{ url_for('search_music') }}">Go!</a>
+        {% else %}
+        {{ user.username }} has no posts.</h3>
+        {% endif %}
     </div>
-    {% else %}
-    <p>{{ user.username }} has no posts.</p>
-    {% endif %}
 {% endif %}

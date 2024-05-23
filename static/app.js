@@ -9,7 +9,7 @@ async function displayBookmarkedSongs(evt){
     const htmlResp = await axios.get(`${BASE_URL}users/${userId}/bookmarked`)
     const htmlRespString = htmlResp.data
     // change display to reflect response data
-    $('#user-content').empty().append(htmlRespString)
+    $('#music-content').empty().append(htmlRespString)
     // change active-tab 
     $target.parent().prev().removeClass('active-tab')
     $target.parent().addClass('active-tab')
@@ -25,7 +25,7 @@ async function displayPosts(evt){
     const htmlResp = await axios.get(`${BASE_URL}users/${userId}/posts`)
     const htmlRespString = htmlResp.data
     // change display to reflect response data
-    $('#user-content').empty().append(htmlRespString)
+    $('#music-content').empty().append(htmlRespString)
     // change active-tab 
     $target.parent().next().removeClass('active-tab')
     $target.parent().addClass('active-tab')
@@ -36,59 +36,71 @@ $('#my-posts-tab').on('click', displayPosts)
 // axios request to bookmark/unbookmark songs
 async function toggleBookmark(evt){
     let $target = $(evt.target)
-    console.log($target)
+    // console.log($target)
     const songId = $target.parent().parent().attr('id')
+    const songTitle = $target.parent().prev().find('a').first().text()
     const resp = await axios.post(`${BASE_URL}bookmark/${songId}`)
     if (resp){
         if ($target.hasClass('bi-bookmark')){
             $target.removeClass('bi-bookmark')
             $target.addClass('bi-bookmark-fill')
+            displayToastMessage('Bookmarked', songTitle)
         }
         else{
             $target.removeClass('bi-bookmark-fill')
             $target.addClass('bi-bookmark')
+            displayToastMessage('Unbookmarked', songTitle)
         }
     }
 }
-$('.bookmark').on('click', toggleBookmark)
+$('#music-content').on('click','.bookmark', toggleBookmark)
 
 
-// axios request to delete a post
-async function deletePost(evt){
-    let $target = $(evt.target)
-    const postId = $target.parent().parent().attr('id')
-    // send request
-    const resp = await axios.delete(`${BASE_URL}posts/${postId}/delete`)
-    // if request went through display success message, else error message
-    if (resp.data.message === "Deleted"){
-        let $postEl = $target.closest(`#${postId}`)
-        $postEl.remove()
-        alert('Success: Post deleted.')
-    }
-    else{
-        alert('Server Error: Failed to delete.')
-    }
+// Display toast and dynamic messaging
+function displayToastMessage(message, song){
+    const $toast = $('#liveToast')
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance($toast)
+    $('.toast-body').html(`${message}: <strong>${song}</strong>`)
+    console.log
+    toastBootstrap.show()
 }
-$('.fa-trash-can').on('click', deletePost)
+
+
+// Axios request to delete a post
+function deletePost(evt){
+    let $target = $(evt.target)
+    const postId = $target.closest('.post').attr('id')
+    // send request
+    $('#delete-post').on('click', async function () {
+        const modal = bootstrap.Modal.getInstance($('.staticPostModal'));
+        modal.hide();
+        const resp = await axios.delete(`${BASE_URL}posts/${postId}/delete`)
+        // if request went through display success message, else error message
+        if (resp.data.message === "Deleted"){
+            let $postEl = $target.closest(`#${postId}`)
+            $postEl.remove()
+        }
+    })
+}
+$('.bi-trash-fill').on('click', deletePost)
 
 
 // Change display on search filter select dropdown
 function filter_results(){
     const val = $('#filter-music').val();
     if (val === 'users'){
-        $('#music-results').hide()
-        $('#users-results').show()
+        $('#music-content').hide()
+        $('#users-content').show()
     }
     else{
-        $('#music-results').show()
-        $('#users-results').hide()
+        $('#music-content').show()
+        $('#users-content').hide()
     }
 }
 $('#filter-music').change(filter_results)
 
 
 // Click event to play/pause track audio snippet
-$('.play-pause').on('click', playPause)
 function playPause(evt){
     let $iconBtn = $(evt.target)
     // Grab audioId to select correct audio player object
@@ -106,3 +118,4 @@ function playPause(evt){
         $audio.pause()
     }
 }
+$('#music-content').on('click','.play-pause', playPause)

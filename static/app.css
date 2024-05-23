@@ -1,8 +1,7 @@
 /* Global Styling */
 *{
     box-sizing: border-box;
-    /* color: #222222; */
-    color: white;
+    color:#222222;
 }
 
 body{
@@ -14,6 +13,7 @@ body{
 }
 
 h2{
+    color: white;
     margin: 0px;
     padding: 10px;
 }
@@ -22,9 +22,28 @@ a{
     text-decoration: none;
 }
 
+b{
+    color: white;
+}
+
 .profile-img{
     border-radius: 50%;
+    object-fit: cover;
 }
+
+.btn{
+    border: none;
+}
+
+.btn-primary{
+    background-color: #4681f4;
+}
+
+#flash{
+    border-radius: 0;
+    border: none;
+}
+
 
 /* Global Font & Icons Styling */
 hr{
@@ -36,9 +55,36 @@ hr{
 }
 
 
-/* Navbar Styling*/
-#home-link{
+/* Home-anon Page Styling */
+#home-title{
+    color: white;
     font-size: 30px;
+}
+
+#carouselAutoplaying{
+    height: 650px;
+}
+
+.img-fixed-size{
+    width:450px;
+}
+
+/* Navbar Styling*/
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+  
+.dropdown>.dropdown-toggle:active {
+      pointer-events: none;
+}
+
+#home-link{
+    font-size: 50px;
+    font-style: normal;
+}
+
+#home-link, #home-title{
+    font-family: "Grand Hotel", cursive, sans-serif;
 }
 
 .navbar-toggler{
@@ -50,16 +96,9 @@ hr{
     height: 50px;
 }
 
-/* .dropdown:hover .dropdown-menu {
-    display: block;
-  }
-  
-.dropdown>.dropdown-toggle:active {
-      pointer-events: none;
-  } */
 
 /* Search Form Styling 
-Copied from Warbler App
+Resource: Warbler App Assessment
 */
 #nav-search{
     width: 150px;
@@ -94,14 +133,6 @@ Copied from Warbler App
 
 
 /* Edit Profile Page Styling */
-#headphone{
-    position: absolute;
-}
-
-#headphone{
-    font-size: 50px;
-}
-
 .arrow-icon{
     position: relative;
     top: -5px;
@@ -109,6 +140,7 @@ Copied from Warbler App
 }
 
 .bi-arrow-left-square{
+    color: white;
     position: absolute;
     font-size: 30px;
 }
@@ -128,7 +160,24 @@ img.post-img{
     font-size: 20px;
 }
 
+.bi-trash-fill{
+    position:absolute;
+    left: -4px;
+    top: -15px;
+}
+
+.trash-post-btn{
+    position: relative;
+    background: none;
+    border: none;
+}
+
+
 /* Song Styling */
+.bi-trash-fill:hover, .bookmark:hover{
+    cursor: pointer;
+}
+
 img.song-img{
     width: 60px;
 }
@@ -141,27 +190,23 @@ a.title{
     font-size: 12px;
 }
 
-.bookmark:hover{
-    cursor: pointer;
-}
-
 
 /* Profile Page Styling */
 #profile-img{
-    object-fit: cover;
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
 }
 
-.profile-container{
+.profile-container, .active-tab{
     background: rgba(255, 255, 255, 0.4);
 }
 
 .active-tab{
-    border: 2px solid white;
     border-radius: 5px;
-    /* background: rgba(255, 255, 255, 0.4);
-    text-decoration: underline; */
+}
+
+.active-tab-title{
+    color: #222222;
 }
 
 .tab:hover{
@@ -188,6 +233,7 @@ i.play{
     position: absolute;
     font-size: 24px;
     top: -3px;
+    color: white;
 }
 i.bi-play-fill{
     left: 4px;
@@ -199,7 +245,7 @@ i.bi-pause-fill{
 
 
 /* Search Page styling */
-#users-results{
+#users-content{
     display: none;
 }
 
@@ -208,3 +254,24 @@ i.bi-pause-fill{
     height: 150px;
 }
 
+
+/* 404 Page Styling */
+.page-not-found{
+    background: rgba(255, 255, 255, 0.4);
+}
+
+#arrow, #headphone{
+    display: block;
+}
+
+#arrow{
+    font-size: 50px;
+    position: relative;
+    top: 10px;
+}
+
+#headphone{
+    position: relative;
+    font-size: 70px;
+    top: -60px;
+}

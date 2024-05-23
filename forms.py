@@ -40,8 +40,6 @@ class EditUserForm(FlaskForm):
     profile_image = FileField('Profile Pic', validators=
                               [FileAllowed(['png', 'jpg', 'jpeg'], message='Photo must be a png, jpg or jpeg file.')])
 
-    spotify_account_id = StringField('Spotify username')
-
     email = StringField('E-mail', validators=
                         [InputRequired(),
                          Email()])

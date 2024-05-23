@@ -58,7 +58,7 @@ def get_track_data(track_keyword):
     Resource Tutorial used: https://www.youtube.com/watch?v=uXf7IRDIQS4"""
 
     # Randomize offset where search response list begins
-    rand_offset = random.randint(0, 200)
+    rand_offset = random.randint(0, 150)
 
     # Parse keywords to be url-compatible
     search_keyword = urllib.parse.quote(f'%{track_keyword}%')
@@ -102,9 +102,3 @@ def get_list_of_tracks(keywords):
     """Returns a list of all song-objects"""
 
     return [get_track_data(keyword) for keyword in keywords]
-
-        
-keywords = ['women', 'sunset', 'outdoors', 'back lit', 'nature']
-# keywords = get_keywords('static/profile-images/shadow.jpeg')
-# songs = get_track_data('women')
-# print (songs)

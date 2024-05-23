@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-md">
+    <div id ="music-content" class="row justify-content-center">
+    <h1 class="text-white">Explore the latest searches:</h1>
+    {% for post in posts %}
+        {% import 'posts/post-macro.html' as macros %}
+        {{ macros.display_post(post)}}
+    {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

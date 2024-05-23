@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-md px-4 text-white">
+    <h1>What're you in the mood for?</h1>
+    <h4>New to <span id="home-title">melomap</span>?</h4>
+    <p class="text-white">Sign up now to search and explore music using AI and your own pictures.</p>
+    <a href="/signup" class="btn btn-primary btn-lg">Get started</a>
+</div>
+  
+<div id="carouselAutoplaying" class="carousel slide container p-4" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="3000">
+        <img class="rounded d-block mx-auto img-fixed-size" 
+        src="/static/home-images/photo.jpg" alt="photo-example">
+      </div>
+      <div class="carousel-item" data-bs-interval="5000">
+        <img class="rounded d-block mx-auto img-fixed-size" 
+        src="/static/home-images/post.png" alt="post-example">
+      </div>
+    </div>
+</div>
+{% endblock %}

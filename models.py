@@ -43,8 +43,6 @@ class User(db.Model):
     profile_image = db.Column(db.Text, 
                               default = "default-profile.png")
 
-    spotify_account_id = db.Column(db.String)
-
     # M:M relationship to map user bookmarks to songs
     bookmarked_songs = db.relationship('Song',
                                        secondary='bookmarked_songs')
@@ -155,7 +153,7 @@ class Song(db.Model):
     @classmethod
     def song_in_db(cls, song):
         """Checks if song instance already in db by passing in song object data, 
-        returns song instance if true, else false"""
+        returns song instance if true, else None"""
         
         spotify_track_id = song['spotify_track_id']
         found_song = Song.query.filter_by(spotify_track_id=spotify_track_id).first()

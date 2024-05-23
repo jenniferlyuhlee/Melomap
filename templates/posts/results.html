@@ -2,13 +2,14 @@
 
 {% block content %}
 <div class="container-md">
+    <h1 class="text-white">
     {% if g.user.id == post.user.id %}
-    <h1>Here are your results:</h1>
+        Here are your results:
     {% else %}
-    <h1>Here are @{{ post.user.username }}'s results:</h1>
+        Here are @{{ post.user.username }}'s results:
     {% endif %}
-
-    <div id ="user-content" class="row justify-content-center">
+    </h1>
+    <div id ="music-content" class="row justify-content-center">
         {% import 'posts/post-macro.html' as macros%}
         {{ macros.display_post(post)}}
     </div>
