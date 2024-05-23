@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5000/";
+const BASE_URL = "https://melomap.onrender.com/";
 
 
 // axios request to view bookmarked songs without reload
