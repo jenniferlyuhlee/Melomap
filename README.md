@@ -9,8 +9,9 @@ Melomap is an AI-powered music searching app that allows users to upload their o
 ## Features:
 
 - User profiles - Personalization to the app that allows users to display their information, results, and bookmarked songs. Users can easily view other profiles to further explore music and build a community.
-- Uploading image files - To further personalize the app and provide convenience, the app allows photo file uploads directly from the user's device.
+- Uploading image files - To further personalize the app and provide convenience, the app allows photo file uploads directly from the user's device. (NOTE: Because this is a small project, the app is programmed to save the photo file in the static directory for direct use, which causes delays/bugs in the load and results. Will look into fixing this with an image CDN instead.)
 - Sharing search results as posts - This sharing feature brings a social aspect to the app that enables more music exploration through eachother's results. Music is a community and the app is built around this community!
+- Song results - Contains spotify metadata, including the track link, cover image and if available, an audio preview. Connects the user to Spotify's page, so they can look into the song more and add it to their playlist.
 - Search bar - Allows further exploration of other users and all posts' song results (an intentional alternative to user-follows to drive away from metrics and encourage exploration beyond the familiar).
 - Bookmarking songs - A feature that brings more functionality to the app, providing convenient access to songs that users may want to revisit, store for reference or share on their pages.
 
