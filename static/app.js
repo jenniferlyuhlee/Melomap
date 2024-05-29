@@ -1,7 +1,4 @@
-const BASE_URL = "http://localhost:5000/";
-
-// https://melomap.onrender.com/
-// "http://localhost:5000/"
+const BASE_URL = "https://melomap.onrender.com/";
 
 
 // axios request to load more posts on homepage
