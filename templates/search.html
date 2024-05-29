@@ -12,22 +12,27 @@
     </div>
   </div>
   <div class="text-center">
-    <p><i class="text-white">Showing searches for "<b>{{ search }}</b>"</i></p>
+    <p><i class="text-white">Showing searches for "<b id="search-query">{{ search }}</b>"</i></p>
   </div>
 
   {% import 'posts/post-macro.html' as macros%}
-  <div id ="music-content" class="mb-3 row justify-content-center">
-      {% for song in songs %}
-        <div class="mb-1 col-lg-9 col-xl-8 col-xxl-7">
-        {{ macros.display_song(song, 'border rounded') }}
-        </div>
-    {% endfor %}
+  <div id="music-content-parent">
+    <div id ="music-content" class="mb-3 row justify-content-center">
+        {% for song in songs %}
+          <div class="mb-1 col-lg-9 col-xl-8 col-xxl-7">
+          {{ macros.display_song(song, 'border rounded') }}
+          </div>
+      {% endfor %}
+    </div>
+    <div id="load-button-container" class="d-flex justify-content-center">
+      <button id='load-more-songs' class="btn btn-primary mb-4 px-5">Load More</button>
+    </div>
   </div>
   
   <div id = "users-content" class="mb-3">
     <div class="row">
       {% for user in users %}
-        <div class="d-flex align-items-stretch col-sm-6 col-lg-4 col-xl-3">
+        <div class="d-flex align-items-stretch col-sm-6 col-lg-4 col-xl-3 mb-4">
           <div class="flex-fill card m-1">
             <div class="card-body d-flex flex-column align-items-center">
               <a href="{{ url_for('user_profile', user_id=user.id) }}">

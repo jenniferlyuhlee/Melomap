@@ -107,7 +107,7 @@ class PostViewsTestCase(TestCase):
             self.assertIn('What songs will you get?', html)
 
     def test_invalid_upload_search_music(self):
-        """Tests that post upload route handles invalid input"""
+        """Tests that post upload route handles invalid file input"""
         
         with self.client as c:
             with c.session_transaction() as sess:
@@ -131,7 +131,40 @@ class PostViewsTestCase(TestCase):
                 self.assertEqual(resp.status_code, 200)
                 self.assertIn('Photo must be a png, jpg or jpeg file', html)
         
-    ############## Post Tests
+    ############## Display Post Tests
+    def test_display_post(self):
+        """Tests that post (results page) displays as expected."""  
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess[CURR_USER_KEY] = self.user1.id    
+
+            resp = c.get(f'/posts/{self.postid}')
+            html = resp.get_data(as_text=True)  
+
+            self.assertEqual(resp.status_code, 200) 
+            self.assertIn('Here are your results', html)   
+            self.assertIn('Test song', html)   
+            self.assertIn('third TEST artists!', html)   
+            self.assertIn("spotify.com/testsong4", html)   
+            self.assertIn('TEST song!', html)   
+    
+    def test_post_not_found(self):
+        """Tests that 404 page displays when post isn't found."""
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess[CURR_USER_KEY] = self.user1.id
+
+            invalid_post_id = 5000
+            resp = c.get(f'/posts/{invalid_post_id}')
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 404)
+            self.assertIn('404. Page not found', html)
+
+
+    ############## Post-Songs Tests
     def test_post_displays_songs(self):
         """Tests that songs in relationship with post are displayed"""
         
@@ -160,15 +193,15 @@ class PostViewsTestCase(TestCase):
             with c.session_transaction() as sess:
                 sess[CURR_USER_KEY] = self.user1.id
 
-        resp = c.delete(f'/posts/{self.postid}/delete')
-        message = resp.json['message']
+            resp = c.delete(f'/posts/{self.postid}/delete')
+            message = resp.json['message']
 
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual('Deleted', message)
+            self.assertEqual(resp.status_code, 200)
+            self.assertEqual('Deleted', message)
 
-        # confirms that songs still exists as instances
-        self.assertIsInstance(self.test_song1, Song)
-        self.assertIsInstance(self.test_song2, Song)
-        self.assertIsInstance(self.test_song3, Song)
-        self.assertIsInstance(self.test_song4, Song)
-        self.assertIsInstance(self.test_song5, Song)
+            # confirms that songs still exists as instances
+            self.assertIsInstance(self.test_song1, Song)
+            self.assertIsInstance(self.test_song2, Song)
+            self.assertIsInstance(self.test_song3, Song)
+            self.assertIsInstance(self.test_song4, Song)
+            self.assertIsInstance(self.test_song5, Song)

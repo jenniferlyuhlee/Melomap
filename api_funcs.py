@@ -3,7 +3,6 @@ import random
 import base64
 import urllib
 from secret import IMG_CLIENT_ID, IMG_API_KEY, SPOTIFY_CLIENT_ID, SPOTIFY_API_KEY
-
 ###############################################################
 # AI IMAGE API REQUEST FUNCTIONS
 
@@ -19,10 +18,12 @@ def get_keywords(image_path):
                                  files=data,
                                  params=params,
                                  auth=(IMG_CLIENT_ID, IMG_API_KEY)).json()
-        keywords_resp = json_resp['keywords']
-        keywords = [keyword_obj['keyword'] for keyword_obj in keywords_resp]
-    return keywords
-
+        if (json_resp['status'] == 'ok'):
+            keywords_resp = json_resp['keywords']
+            keywords = [keyword_obj['keyword'] for keyword_obj in keywords_resp]
+            return keywords
+        return None
+    
 
 ###############################################################
 # SPOTIFY REQUEST FUNCTIONS
@@ -102,3 +103,4 @@ def get_list_of_tracks(keywords):
     """Returns a list of all song-objects"""
 
     return [get_track_data(keyword) for keyword in keywords]
+

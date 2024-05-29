@@ -1,0 +1,15 @@
+{% import 'posts/post-macro.html' as macros %}
+
+{% if posts %}
+    {% for post in posts %}
+        {{ macros.display_post(post) }}
+    {% endfor %}
+
+{% elif songs %}
+    {% for song in songs %}
+        <div class="mb-1 col-lg-9 col-xl-8 col-xxl-7">
+        {{ macros.display_song(song, 'border rounded') }}
+         </div>
+    {% endfor %}
+{% endif %}
+

@@ -1,11 +1,12 @@
 """Views for Melomap App"""
 
 import os
-from flask import Flask, render_template, request, flash, redirect, session, g, url_for, jsonify
+from flask import Flask, render_template, request, flash, redirect, session, g, url_for, jsonify, abort
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import HTTPException
 import uuid as uuid
 
 from forms import SignupForm, LoginForm, EditUserForm, EditPasswordForm, ImageUploadForm
@@ -54,7 +55,7 @@ def check_g_user(func):
     def wrapper(*args, **kwargs):
         if not g.user:
             flash("Access unauthorized.", "danger")
-            return redirect(url_for('homepage'))
+            # return redirect(url_for('homepage'))
         return func(*args, **kwargs)
     return wrapper
 
@@ -158,11 +159,21 @@ def homepage():
     """
 
     if g.user:
-        posts = Post.query.order_by(Post.timestamp.desc()).limit(30).all()
+        posts = Post.query.order_by(Post.timestamp.desc()).limit(5).all()
         return render_template('homepages/home.html', posts=posts)
 
     else:
         return render_template('homepages/home-anon.html')
+
+@app.route('/loadmore/posts')
+@check_g_user
+def loadmore_posts():
+    """Shows more posts
+    - sends response to axios request to be handled in JS"""
+
+    offset = int(request.args.get('offset'))
+    posts = Post.query.order_by(Post.timestamp.desc()).limit(5).offset(offset).all()
+    return render_template('homepages/loadmore.html', posts=posts)
 
 
 ###############################################################
@@ -327,7 +338,7 @@ def search():
 
     # Display all results if no search query entered
     if not search:
-        songs = Song.query.all()
+        songs = Song.query.limit(20).all()
         users = User.query.all()
     
     # Display filtered results based on search query 
@@ -336,7 +347,7 @@ def search():
             (func.lower(Song.title).like(f"%{search}%")) | 
             (func.lower(Song.album).like(f"%{search}%")) | 
             (func.lower(Song.artists).like(f"%{search}%"))
-            ).all()
+            ).limit(20).all()
         users = User.query.filter(
             (func.lower(User.username).like(f"%{search}%")) | 
             (func.lower(User.name).like(f"%{search}%"))
@@ -346,6 +357,27 @@ def search():
                             songs=songs,
                             users=users,
                             search=search)
+
+@app.route('/loadmore/songs')
+@check_g_user
+def loadmore_songs():
+    """Shows more song results
+    - sends response to axios request to be handled in JS"""
+
+    search = request.args.get('q')
+    offset = int(request.args.get('offset'))
+
+    if not search:
+        songs = Song.query.limit(20).offset(offset).all()
+
+    else:
+        songs = Song.query.filter(
+            (func.lower(Song.title).like(f"%{search}%")) | 
+            (func.lower(Song.album).like(f"%{search}%")) | 
+            (func.lower(Song.artists).like(f"%{search}%"))
+            ).limit(20).offset(offset).all()
+    
+    return render_template('homepages/loadmore.html', songs=songs)
 
 
 @app.route('/posts/upload', methods=['GET', 'POST'])
@@ -370,29 +402,36 @@ def search_music():
         # send photo to AI-image API to get keywords
         keywords = get_keywords(f'static/post-images/{img_name}')
         
-        # send keywords to Spotify API to get song data as a list
-        song_data_list = get_list_of_tracks(keywords)
+        # if API succeeds in sending keywords
+        if (keywords):
+            # send keywords to Spotify API to get song data as a list
+            song_data_list = get_list_of_tracks(keywords)
 
-        # Create Post instance
-        new_post = Post(image=img_name, description=description)
-        # Append post to user
-        g.user.posts.append(new_post)
+            # Create Post instance
+            new_post = Post(image=img_name, description=description)
+            # Append post to user
+            g.user.posts.append(new_post)
 
-        # Create or find Song instances in db and append them to new_post
-        for song_obj in song_data_list:
-            # If not found in db, create new song instance
-            found_song = Song.song_in_db(song_obj)
-            if (found_song is None):
-                found_song = Song.create_song(song_obj)
-            # Else append to post
-            new_post.songs.append(found_song)
-        
-        try:
-            db.session.commit()
-            return redirect(url_for('music_results', post_id=new_post.id))
+            # Create or find Song instances in db and append them to new_post
+            for song_obj in song_data_list:
+                # If not found in db, create new song instance
+                found_song = Song.song_in_db(song_obj)
+                if (found_song is None):
+                    found_song = Song.create_song(song_obj)
+                # Else append to post
+                new_post.songs.append(found_song)
+            
+            try:
+                db.session.commit()
+                return redirect(url_for('music_results', post_id=new_post.id))
 
-        except Exception as e:
-            db.session.rollback()
+            except Exception as e:
+                db.session.rollback()
+
+        # API fails to send keywords show error 500 page
+        else:
+            abort(500)
+
 
     return render_template('form.html', 
                            title = 'What songs will you get?',
@@ -426,9 +465,23 @@ def delete_post(post_id):
 
 
 ###############################################################
-# 404 Page
+# Error Pages
         
 @app.errorhandler(404)
 @check_g_user
 def page_not_found(err):
-    return render_template('404.html'), 404
+    return render_template('errors/404.html'), 404
+
+
+@app.errorhandler(500)
+@check_g_user
+def internal_error(err):
+    return render_template('errors/500.html'), 500
+
+
+@app.errorhandler(Exception)
+@check_g_user
+def handle_exception(err):
+    if (isinstance(err, HTTPException)):
+        return err
+    return render_template('errors/500.html', err=err), 500

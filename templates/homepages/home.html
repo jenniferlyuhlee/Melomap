@@ -3,11 +3,14 @@
 {% block content %}
 <div class="container-md">
     <div id ="music-content" class="row justify-content-center">
-    <h1 class="text-white">Explore the latest searches:</h1>
-    {% for post in posts %}
+        <h1 class="text-white">Explore the latest searches:</h1>
         {% import 'posts/post-macro.html' as macros %}
-        {{ macros.display_post(post)}}
-    {% endfor %}
+        {% for post in posts %}
+            {{ macros.display_post(post)}}
+        {% endfor %}
+    </div>
+    <div id="button-container" class="d-flex justify-content-center">
+        <button id='load-more' class="btn btn-primary mb-4 px-5">Load More</button>
     </div>
 </div>
 
