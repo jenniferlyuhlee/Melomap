@@ -1,6 +1,39 @@
 const BASE_URL = "https://melomap.onrender.com/";
 
 
+// axios request to load more posts on homepage
+let offsetPost = 5;
+async function loadmorePosts(){
+    const htmlResp = await axios.get(`${BASE_URL}loadmore/posts`, {params: {offset: offsetPost}})
+    const htmlRespString = htmlResp.data
+    $('#music-content').append(htmlRespString)
+
+    offsetPost+=5;
+    if (htmlRespString === '\n\n\n' || offsetPost === 30){
+        const endMsg = "<h5 class='mb-4 text-white'>You're all caught up!</h5>"
+        $('#button-container').empty().append(endMsg)
+    }
+}
+$('#button-container').on('click','#load-more', loadmorePosts)
+
+
+// axios request to load more song results on search page
+let offsetSong = 20;
+async function loadmoreSongs(){
+    const searchQ = $('#search-query').text()
+    const htmlResp = await axios.get(`${BASE_URL}loadmore/songs`, {params:{q: searchQ, offset: offsetSong}})
+    const htmlRespString = htmlResp.data
+    $('#music-content').append(htmlRespString)
+    
+    offsetSong+=20;
+    if (htmlRespString === '\n\n\n'){
+        const endMsg = "<h5 class='mb-4 text-white'>You've seen all the results!</h5>"
+        $('#load-button-container').empty().append(endMsg)
+    }
+}
+$('#load-button-container').on('click','#load-more-songs', loadmoreSongs)
+
+
 // axios request to view bookmarked songs without reload
 async function displayBookmarkedSongs(evt){
     let $target = $(evt.target)
@@ -36,7 +69,6 @@ $('#my-posts-tab').on('click', displayPosts)
 // axios request to bookmark/unbookmark songs
 async function toggleBookmark(evt){
     let $target = $(evt.target)
-    // console.log($target)
     const songId = $target.parent().parent().attr('id')
     const songTitle = $target.parent().prev().find('a').first().text()
     const resp = await axios.post(`${BASE_URL}bookmark/${songId}`)
@@ -56,12 +88,11 @@ async function toggleBookmark(evt){
 $('#music-content').on('click','.bookmark', toggleBookmark)
 
 
-// Display toast and dynamic messaging
+// Display toast and message when song (un)bookmarked
 function displayToastMessage(message, song){
     const $toast = $('#liveToast')
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance($toast)
     $('.toast-body').html(`${message}: <strong>${song}</strong>`)
-    console.log
     toastBootstrap.show()
 }
 
@@ -89,11 +120,11 @@ $('.bi-trash-fill').on('click', deletePost)
 function filter_results(){
     const val = $('#filter-music').val();
     if (val === 'users'){
-        $('#music-content').hide()
+        $('#music-content-parent').hide()
         $('#users-content').show()
     }
     else{
-        $('#music-content').show()
+        $('#music-content-parent').show()
         $('#users-content').hide()
     }
 }

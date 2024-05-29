@@ -219,7 +219,7 @@ class Post(db.Model):
     
     timestamp = db.Column(db.DateTime,
                            nullable=False,
-                           default=datetime.now())
+                           default=datetime.now)
     
     # bidirectional 1:M relationship between post <-> user
     user = db.relationship('User',
@@ -229,3 +229,4 @@ class Post(db.Model):
     songs = db.relationship('Song',
                             secondary='post_songs',
                             back_populates='posts')
+    

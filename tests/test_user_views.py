@@ -179,6 +179,28 @@ class UserViewsTestCase(TestCase):
             self.assertEqual(resp2.status_code, 200)
             self.assertIn(f'@{self.user2.username}', html2)
 
+    def test_user_not_found(self):
+        """Tests that 404 page displays when user isn't found"""
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess[CURR_USER_KEY] = self.user1.id
+
+            # user id that doesn't exist
+            invalid_user_id = 5000
+            resp1 = c.get(f'/users/{invalid_user_id}')
+            html1 = resp1.get_data(as_text=True)
+
+            self.assertEqual(resp1.status_code, 404)
+            self.assertIn('404. Page not found', html1)
+            
+            # invalid user id param 
+            resp2 = c.get('/users/invaliduser')
+            html2 = resp2.get_data(as_text=True)
+
+            self.assertEqual(resp2.status_code, 404)
+            self.assertIn('404. Page not found', html2)
+
     ############## Edit Profile Tests
     def test_edit_profile(self):
         """Tests edit profile route works as expected."""
