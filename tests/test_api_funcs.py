@@ -5,7 +5,7 @@ from unittest import TestCase
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from api_funcs import get_keywords, get_track_data, get_list_of_tracks
+from views.api_funcs import get_keywords, get_track_data, get_list_of_tracks
 
 class ImageAPITestCase(TestCase):
     """Tests for AI Image API calls."""
