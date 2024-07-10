@@ -9,9 +9,9 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 import uuid as uuid
 
-from forms import SignupForm, LoginForm, EditUserForm, EditPasswordForm, ImageUploadForm
-from models import db, connect_db, User, Song, Post
-from api_funcs import get_keywords, get_list_of_tracks
+from views.forms import SignupForm, LoginForm, EditUserForm, EditPasswordForm, ImageUploadForm
+from models.models import db, connect_db, User, Song, Post
+from views.api_funcs import get_keywords, get_list_of_tracks
 from functools import wraps
 
 CURR_USER_KEY = 'curr_user'
@@ -94,7 +94,7 @@ def signup():
         except IntegrityError:
             db.session.rollback()
             form.username.errors.append('Username taken.')
-            return render_template ('form.html', form=form,
+            return render_template('form.html', form=form,
                                     title='Join melomap.',
                                     button='Sign up')
         
@@ -353,7 +353,7 @@ def search():
             (func.lower(User.name).like(f"%{search}%"))
             ).all()
 
-    return render_template ('search.html', 
+    return render_template('search.html', 
                             songs=songs,
                             users=users,
                             search=search)

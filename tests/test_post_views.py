@@ -7,7 +7,7 @@ from sqlalchemy import exc
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from models import db, User, Post, Song
+from models.models import db, User, Post, Song
 
 os.environ['DATABASE_URL'] = "postgresql:///melomap-test"
 

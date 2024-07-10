@@ -131,22 +131,36 @@ function filter_results(){
 $('#filter-music').change(filter_results)
 
 
+// Global varibals to keep track of currently playing audio
+let currentAudio = null;
+let currentIconBtn = null;
+
 // Click event to play/pause track audio snippet
 function playPause(evt){
     let $iconBtn = $(evt.target)
     // Grab audioId to select correct audio player object
     let audioId = $iconBtn.parent().prev().attr('id')
     let $audio = $(`#${audioId}`).get(0)
+
+    // Checks if current audio playing and it's not being clicked to pause audio
+    if (currentAudio && currentAudio != $audio){
+        currentAudio.pause();
+        currentIconBtn.removeClass('bi-pause-fill').addClass('bi-play-fill')
+    }
+
     // Change button icon displays and play/pause audio
     if ($iconBtn.hasClass('bi-play-fill')){
-        $iconBtn.removeClass('bi-play-fill')
-        $iconBtn.addClass('bi-pause-fill')
+        $iconBtn.removeClass('bi-play-fill').addClass('bi-pause-fill')
+        $audio.currentTime = 0; // Reset audio to start from beginning
         $audio.play();
+        currentAudio = $audio;
+        currentIconBtn = $iconBtn;
     }
     else{
-        $iconBtn.removeClass('bi-pause-fill')
-        $iconBtn.addClass('bi-play-fill')
+        $iconBtn.removeClass('bi-pause-fill').addClass('bi-play-fill')
         $audio.pause()
+        currentAudio = null;
+        currentIconBtn = null;
     }
 }
 $('#music-content').on('click','.play-pause', playPause)
